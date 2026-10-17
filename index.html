@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wie lange würdest du eine Zombie-Apokalypse überleben?</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧟</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<script>
+/* ============================================================
+   HIER DEINE ERGEBNISSE EINTRAGEN
+   Mögliche Punkte: 5 bis 20.
+   Du kannst beliebig viele Stufen anlegen. Wichtig: Die Bereiche
+   (von/bis) sollten zusammen alle Werte von 5 bis 20 abdecken.
+   ============================================================ */
+const ERGEBNISSE = [
+  { von: 5,  bis: 9,  titel: "Snack für zwischendurch", text: "Ein Glück für dich, dass es Zombie-Apokalypsen nicht gibt. Du wärst für die Zombies ein perfekter, einfacher Snack für zwischendurch. Fast wie ein Schokoriegel." },
+  { von: 10, bis: 14, titel: "Filmwissen", text: "Du machst das, was alle machen. Wahrscheinlich hast du dein Wissen über Zombie-Apokalypsen aus billigen Filmen. Du wirst nicht als Erste sterben, aber weit wirst du auch nicht kommen. Daher lege ich dir dringend ans Herz, noch ein bisschen etwas über Zombie-Apokalypsen zu lernen. Bald könnte es so weit sein." },
+  { von: 15, bis: 18, titel: "Zukünftiger Kaiser", text: "Du bist kreativ, du bist gewieft und du bist vorbereitet. Wenn man eine KI darauf trainieren würde, eine Zombie-Apokalypse zu überleben, würde man dich als Vorbild nehmen. Alles, was dir jetzt noch fehlt, ist, eine Gesellschaft der Überlebenden aufzubauen und sie als Kaiser zu leiten." },
+  { von: 19, bis: 20, titel: "Selbst-Zombie", text: "Die Zombie-Apokalypse ist nicht unbemerkt an dir vorbeigegangen. Du wurdest zwar nicht infiziert, gebissen oder gefangen, aber durch deine extrem merkwürdigen Verhaltensmuster bist du eigenständig zu einem Zombie geworden. Ob das nun ein Erfolg oder ein Fehlschlag ist, hängt von der Interpretation ab." }
+];
+
+/* Soll die Punktzahl beim Ergebnis angezeigt werden? true = ja, false = nein */
+const PUNKTE_ANZEIGEN = true;
+
+/* ============================================================
+   FRAGEN (Punkte in Klammern wie im Original-Dokument)
+   ============================================================ */
+const FRAGEN = [
+  { frage: "Was ist dein Lieblingsgetränk?", antworten: [
+    ["Wasser", 2], ["Hauptsache Alkohol …", 3], ["Batteriesäure", 4], ["Curry-Mango-Soße", 1] ]},
+  { frage: "Welche Waffe wählst du?", antworten: [
+    ["Kettensäge", 4], ["Eine Panzerhaubitze", 1], ["Das Nokia 63101 Silber", 2], ["Elias Eduard Manfred Gotthold Lessing Gerstner", 3] ]},
+  { frage: "Du hast die Chance, kurz vor dem Ausbruch der Apokalypse in eine dieser Städte zu fliegen. Wohin fliegst du?", antworten: [
+    ["Ich hotdroppe in Tokyo (Japan)", 4], ["Ich schließe mich einem Drogenkartell in Guadalajara (Mexiko) an", 2], ["Die schönste Stadt der Welt: Afrika", 1], ["Paris. Grrrr. Franzosen", 3] ]},
+  { frage: "Wie bereitest du dich auf die Apokalypse vor?", antworten: [
+    ["Ich habe alle Zombie-Apokalypse-Spiele durchgespielt", 4], ["Ich habe 50 kg Konserven 5 m tief in einer Sandkiste vergraben", 2], ["Ich verstecke mich unter meiner Bettdecke und drehe mich einfach um", 1], ["Ich studiere Zombiologie in Harvard", 3] ]},
+  { frage: "Du begegnest einem hungrigen Zombie. Wie verhandelst du mit ihm?", antworten: [
+    ["Grrrr Ahhhhhhh Uuh Uuh Röööööööööörgggh", 4], ["Steig in den schwarzen Van ein, da habe ich ganz viele süße kleine Kinder", 3], ["Ich hypnotisiere ihn mit einem miesen Remix von Taylor Swift und überrede ihn dann einfach, nach Hause zu gehen", 2], ["Pssst, wenn du jetzt schreist, kommen die anderen Zombies auch noch. Ich gebe dir meine linke Hand und du lässt mich gehen?", 1] ]}
+];
+</script>
+<style>
+:root {
+  --paper: #E6EADB;
+  --paper-2: #D8DEC8;
+  --ink: #26232E;
+  --ink-soft: #5A5566;
+  --bruise: #5B3B6E;
+  --hazard: #F0BE2A;
+  --blood: #A11D21;
+  --card: #F3F5EC;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1C1F1A;
+    --paper-2: #262A23;
+    --ink: #E4E7DA;
+    --ink-soft: #A7AB9C;
+    --bruise: #B596CC;
+    --hazard: #E2B21F;
+    --blood: #E2585B;
+    --card: #23271F;
+    color-scheme: dark;
+  }
+}
+*, *::before, *::after { box-sizing: inherit; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+.hazard {
+  height: 14px;
+  flex: none;
+  background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, var(--ink) 14px 28px);
+}
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+h1, h2 {
+  font-family: "Bowlby One", Impact, "Arial Black", sans-serif;
+  font-weight: 400;
+  line-height: 1.05;
+  margin: 0 0 1rem;
+}
+h1 { font-size: clamp(2.1rem, 8vw, 3.4rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.4rem, 5vw, 1.9rem); }
+p { margin: 0 0 1.25rem; max-width: 34em; }
+.lead { color: var(--ink-soft); font-size: 1.125rem; }
+button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+button:focus-visible { outline: 3px solid var(--bruise); outline-offset: 3px; }
+.go {
+  align-self: flex-start;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 0.9rem 1.6rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 4px;
+}
+.go:hover { background: var(--bruise); }
+.progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.75rem;
+}
+.progress span {
+  flex: 1;
+  height: 6px;
+  background: var(--paper-2);
+  border-radius: 3px;
+}
+.progress span.done { background: var(--bruise); }
+.count { color: var(--ink-soft); font-weight: 700; margin-bottom: 0.5rem; }
+.answers { display: grid; gap: 0.7rem; margin-top: 0.5rem; }
+.answer {
+  text-align: left;
+  background: var(--card);
+  border: 2px solid var(--paper-2);
+  border-radius: 6px;
+  padding: 0.95rem 1.1rem;
+  line-height: 1.4;
+  transition: border-color .12s, transform .12s;
+}
+.answer:hover { border-color: var(--bruise); }
+.answer:active { transform: scale(0.99); }
+.back {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  padding: 0.4rem 0;
+  margin-top: 1.25rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.stamp {
+  display: inline-block;
+  font-family: "Bowlby One", Impact, sans-serif;
+  color: var(--blood);
+  border: 4px solid var(--blood);
+  border-radius: 6px;
+  padding: 0.35rem 0.9rem;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  transform: rotate(-4deg);
+  margin: 0.5rem 0 1.5rem;
+  animation: stamp .35s cubic-bezier(.2,1.6,.4,1) both;
+}
+@keyframes stamp {
+  from { transform: rotate(-4deg) scale(2.2); opacity: 0; }
+  to   { transform: rotate(-4deg) scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stamp { animation: none; }
+  .answer { transition: none; }
+}
+.score { color: var(--ink-soft); font-weight: 700; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<main id="app" aria-live="polite"></main>
+<div class="hazard" aria-hidden="true"></div>
+
+<script>
+const app = document.getElementById("app");
+let index = 0;
+let auswahl = [];
+let gemischt = [];
+
+function mischen(liste) {
+  const a = liste.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function escape(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function start() {
+  app.innerHTML = `
+    <h1>Wie lange würdest du eine Zombie-Apokalypse überleben?</h1>
+    <p class="lead">${FRAGEN.length} Fragen. Antworte ehrlich, die Zombies merken es sowieso.</p>
+    <button class="go" id="los">Quiz starten</button>`;
+  document.getElementById("los").onclick = () => {
+    index = 0;
+    auswahl = [];
+    gemischt = FRAGEN.map(f => mischen(f.antworten));
+    frage();
+  };
+}
+
+function frage() {
+  const f = FRAGEN[index];
+  const balken = FRAGEN.map((_, i) => `<span class="${i < index ? "done" : ""}"></span>`).join("");
+  app.innerHTML = `
+    <div class="progress" aria-hidden="true">${balken}</div>
+    <div class="count">Frage ${index + 1} von ${FRAGEN.length}</div>
+    <h2>${escape(f.frage)}</h2>
+    <div class="answers">
+      ${gemischt[index].map((a, i) => `<button class="answer" data-i="${i}">${escape(a[0])}</button>`).join("")}
+    </div>
+    ${index > 0 ? `<button class="back" id="zurueck">Zurück zur vorherigen Frage</button>` : ""}`;
+  app.querySelectorAll(".answer").forEach(btn => {
+    btn.onclick = () => {
+      auswahl[index] = gemischt[index][+btn.dataset.i][1];
+      index++;
+      index < FRAGEN.length ? frage() : ergebnis();
+    };
+  });
+  const z = document.getElementById("zurueck");
+  if (z) z.onclick = () => { index--; frage(); };
+  app.querySelector(".answer").focus({ preventScroll: true });
+}
+
+function ergebnis() {
+  const punkte = auswahl.reduce((s, p) => s + p, 0);
+  const e = ERGEBNISSE.find(r => punkte >= r.von && punkte <= r.bis)
+    || { titel: "Ergebnis", text: "Für diese Punktzahl ist noch kein Text hinterlegt." };
+  app.innerHTML = `
+    <div class="count">Dein Ergebnis</div>
+    <div><span class="stamp">${escape(e.titel)}</span></div>
+    <p class="lead">${escape(e.text)}</p>
+    ${PUNKTE_ANZEIGEN ? `<p class="score">${punkte} von ${FRAGEN.length * 4} Punkten</p>` : ""}
+    <button class="go" id="nochmal">Nochmal spielen</button>`;
+  document.getElementById("nochmal").onclick = start;
+}
+
+start();
+</script>
+</body>
+</html>
